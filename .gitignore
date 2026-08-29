@@ -28,6 +28,9 @@ dist-ssr
 # Local tooling cache
 .impeccable/
 
+# Supabase CLI local cache (holds connection info, never commit)
+supabase/.temp/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
