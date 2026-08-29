@@ -44,8 +44,25 @@ function isH3SwallowedErrorBody(body: string): boolean {
   }
 }
 
+// The raw *.workers.dev URL Cloudflare assigns every Worker stays live
+// alongside any custom domain. Redirect it to the canonical host so links,
+// bookmarks, and search engines all converge on one address.
+const CANONICAL_HOST = "stage.welzea.com";
+
+function canonicalRedirect(request: Request): Response | undefined {
+  const url = new URL(request.url);
+  if (url.hostname === CANONICAL_HOST || !url.hostname.endsWith(".workers.dev")) return undefined;
+  url.hostname = CANONICAL_HOST;
+  url.protocol = "https:";
+  url.port = "";
+  return Response.redirect(url.toString(), 308);
+}
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
+    const redirect = canonicalRedirect(request);
+    if (redirect) return redirect;
+
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
