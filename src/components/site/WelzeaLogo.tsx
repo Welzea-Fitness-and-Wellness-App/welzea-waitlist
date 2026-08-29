@@ -1,4 +1,4 @@
-import markAsset from "@/assets/welzea-mark.png.asset.json";
+import markAsset from "@/assets/welzea-mark.png";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/lib/site-config";
 
@@ -18,7 +18,7 @@ export function WelzeaLogo({
   return (
     <span className={cn("inline-flex items-center gap-2.5", className)}>
       <img
-        src={markAsset.url}
+        src={markAsset}
         alt={`${siteConfig.brand} logo`}
         width={903}
         height={605}
